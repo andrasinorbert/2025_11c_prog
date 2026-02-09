@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+const jelszoEllenorzes = jelszo => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            if (jelszo.length >= 8) {
+                resolve(jelszo);
+            } else {
+                reject(new Error(`A jelszó túl rövid  ${jelszo.length}<8`));
+            }
+        }, 1000);
+    });
+}
+
+jelszoEllenorzes("Tit0kzat.os")
+    .then(jelszo=>{
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                if (/[!@#$%^&*(),.?":{}|<>]/.test(jelszo)) {
+                    resolve(jelszo);
+                } else {
+                    reject(new Error(`A jelszó nem tartalmaz spec karaktert`));
+                }
+            }, 1000);
+        })
+    })
+    .then( jelszo=>{
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                if (/[0-9]/.test(jelszo)) {
+                    resolve(jelszo);
+                } else {
+                    reject(new Error(`A jelszó nem tartalmaz számot`));
+                }
+            }, 1000);
+        })
+    })
+    .then(jelszo => {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                if (/[a-z]/.test(jelszo) && /[A-Z]/.test(jelszo)) {
+                    resolve("A jelszó helyes");
+                } else {
+                    reject(new Error(`A jelszó nem tartalmaz kis és nagybetűt`));
+                }
+            }, 1000);
+        })
+    })
+    .then( eredmeny => 
+        console.log(eredmeny)
+    )
+    .catch(err => console.error(err.message))
+    .finally(()=>{
+        console.info("Véget ért!!!")
+    })
+    </script>
+</head>
+<body>
+    Üdv
+</body>
+</html>
