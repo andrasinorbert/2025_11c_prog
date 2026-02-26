@@ -2,35 +2,35 @@ import pymysql
 
 from config import db_defaults
 
-
-def connectDB(_host, _port, _user, _passwd, _dbname):
-    return pymysql.connect(
-            host=_host,
-            port=_port,
-            user=_user,
-            password=_passwd,
-            database=_dbname
-        )
-
-
-def select():    
-    db=connectDB(
-        db_defaults["DB_HOST"],
-        db_defaults["DB_PORT"],
-        db_defaults["DB_UNAME"],
-        db_defaults["DB_PASSWD"],
-        db_defaults["DB_NAME"],
-    )
-
-    cursor=db.cursor()
-    sql=f"SELECT * FROM szeret;"
-    cursor.execute(sql)
-    rows =cursor.fetchall()
-    db.close()
+class OwnDataBase:
+    def __init__(self):
+        self.host=db_defaults["DB_HOST"]
+        self.port=db_defaults["DB_PORT"]
+        self.username=db_defaults["DB_UNAME"]
+        self.password=db_defaults["DB_PASSWD"]
+        self.databasename=db_defaults["DB_NAME"]
     
-    return rows
+    def connectDB(self):
+        return pymysql.connect(
+                host=self.host,
+                port=self.port,
+                user=self.username,
+                password=self.password,
+                database=self.databasename
+            )
 
-l= select()
+    def select(self):    
+        db=self.connectDB()
+        cursor=db.cursor()
+        sql=f"SELECT * FROM szeret;"
+        cursor.execute(sql)
+        rows =cursor.fetchall()
+        db.close()
+        
+        return rows
+
+db=OwnDataBase()
+l= db.select()
 
 for i in l:
     print(f"{i[0]}: {i[1]}")
