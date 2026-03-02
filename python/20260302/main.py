@@ -1,36 +1,23 @@
-import pymysql
+from OwnDataBase import OwnDataBase
 
-from config import db_defaults
+db= OwnDataBase()
 
-class OwnDataBase:
-    def __init__(self):
-        self.host=db_defaults["DB_HOST"]
-        self.port=db_defaults["DB_PORT"]
-        self.username=db_defaults["DB_UNAME"]
-        self.password=db_defaults["DB_PASSWD"]
-        self.databasename=db_defaults["DB_NAME"]
-    
-    def connectDB(self):
-        return pymysql.connect(
-                host=self.host,
-                port=self.port,
-                user=self.username,
-                password=self.password,
-                database=self.databasename
-            )
+rows= db.select("szeret", "*")
 
-    def select(self,  tablanev, oszlopnevek="*", feltetel="1", naturaljointable=None):    
-        db=self.connectDB()
-        cursor=db.cursor()
-        sql=f"SELECT {oszlopnevek} FROM {tablanev}"
-        if(naturaljointable!= None): sql+=f" NATURAL JOIN {naturaljointable}"
-        sql+=f" WHERE {feltetel};"
-        cursor.execute(sql)
-        rows =cursor.fetchall()
-        db.close()
-        
-        return rows
+for i in rows:
+    print(i)
     
-    def insert(self):
-        pass
-    
+r=db.insert("névkor", "Név, Kor", [
+        ["Kanga", 15],
+        ["Károly", 18]
+    ]  )
+print(r)
+
+rows= db.select("névkor", "*")
+
+for i in rows:
+    print(i)
+
+db.delete("névkor", "Név like 'K%'")
+
+db.printTable("névkor")
