@@ -31,23 +31,6 @@ class OwnDataBase:
         
         return rows
     
-    
-
-# szeret(Név, Gyümölcs)
-# névkor(Név, Kor)
-db=OwnDataBase()
-l= db.select("szeret")
-
-for i in l:
-    print(f"{i[0]}: {i[1]}")
-    
-l2=db.select("szeret", "Név")
-print(l2)
-
-l3=db.select("szeret", naturaljointable="névkor")
-print(type(l3))
-for i in l3:
-    for j in i:
-        print(f"{j}", end=" ")
-    print()
+    def insert(self):
+        pass
     
