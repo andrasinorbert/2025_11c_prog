@@ -44,7 +44,7 @@ npm init -y
 npm install express
 ```
 
-### A kód egy kicsit egyszeűsödik
+### A kód egy kicsit egyszerűsödik
 
 ```js
 const express = require('express');
@@ -53,6 +53,10 @@ const port = 3000;
 
 app.get('/', (req, res) => {
     res.send('Hello World');
+});
+
+app.get('/user', (req, res) => {
+    res.send('Hello Jani');
 });
 
 app.listen(port, () => {
